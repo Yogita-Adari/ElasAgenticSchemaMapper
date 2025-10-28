@@ -15,6 +15,10 @@ This project demonstrates a full end-to-end workflow:
 4. **Live API Response** — The results are returned through a clean REST endpoint (`/infer-schema`), viewable in the browser or via API clients like Thunder Client or Postman.
 
 ---
+Architectural Layer for Semantic Matching 
+<img width="1004" height="640" alt="image" src="https://github.com/user-attachments/assets/c1fe510e-c163-45d6-9b0a-52d1e78cced6" />
+
+---
 
 ## Technologies used
 
