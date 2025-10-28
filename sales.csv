@@ -1,0 +1,5 @@
+employee_id,customer_id,type_sale,amount_spent,optional1,optional2
+101,201,"online",500.50,"coupon10",""
+102,202,"in-store",1200.00,"","return_customer"
+103,203,"online",250.75,"promo_code",""
+104,204,"in-store",800.25,"","membership"
