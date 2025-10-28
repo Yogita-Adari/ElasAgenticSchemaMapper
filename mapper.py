@@ -1,29 +1,25 @@
-import pandas as pd
 from openai import OpenAI
+import numpy as np
+import pandas as pd
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv("IExcludedMyAPIKey"))
+client = OpenAI(api_key=os.getenv("Add_your_API_Key"))
 
-def generate_schema(csv_path):
-    df = pd.read_csv(csv_path)
-    columns = list(df.columns)
-    
-    prompt = f"""
-    You are a data-mapping agent. Given the following columns: {columns},
-    infer the logical meaning for each field and produce a JSON schema
-    with keys: 'column_name', 'description', and 'datatype'.
-    Keep it concise and practical for business reporting.
-    """
-    
-    response = client.responses.create(
-        model="gpt-4.1-mini",
-        input=prompt
+def generate_semantic_embeddings(texts):
+    response = client.embeddings.create(
+        model="text-embedding-3-small",
+        input=texts
     )
-    
-    print("📘 AI Schema Suggestion:")
-    print(response.output[0].content[0].text)
+    return [item.embedding for item in response.data]
 
-if __name__ == "__main__":
-    generate_schema("sales.csv")
+def enrich_with_embeddings(df):
+    semantic_info = {}
+    for col in df.columns:
+        # Sample from the column to capture meaning
+        sample_values = df[col].dropna().astype(str).tolist()[:5]
+        text_input = [col] + sample_values
+        embeddings = generate_semantic_embeddings(text_input)
+        semantic_info[col] = np.mean(embeddings, axis=0) 
+    return semantic_info
